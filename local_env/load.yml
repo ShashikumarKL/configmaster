@@ -1,0 +1,21 @@
+---
+- name: Check processes and system load
+  hosts: all
+  gather_facts: true
+  tasks:
+    - name: Get list of all processes
+      shell: ps aux
+      register: process_list
+
+    - name: Display list of processes
+      debug:
+        var: process_list.stdout
+
+    - name: Get system load
+      shell: uptime
+      register: system_load
+
+    - name: Display system load
+      debug:
+        var: system_load.stdout_lines
+

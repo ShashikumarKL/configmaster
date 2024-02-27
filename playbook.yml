@@ -1,0 +1,26 @@
+---
+- name: Configure Postgres, Nginx, and install Docker
+  hosts: all
+  become: yes
+  tasks:
+    - name: Install Postgres
+      hosts: postgres_node
+      become: yes
+      apt:
+        name: postgresql
+        state: present
+
+    - name: Install Nginx
+      hosts: nginx_node
+      become: yes
+      apt:
+        name: nginx
+        state: present
+
+    - name: Install Docker
+      hosts: docker_nodes
+      become: yes
+      apt:
+        name: docker.io
+        state: present
+

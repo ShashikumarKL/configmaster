@@ -1,0 +1,31 @@
+---
+- name: Check system prerequisites
+  hosts: all
+  gather_facts: true
+  tasks:
+    - name: Check if Docker is installed
+      command: docker --version
+      ignore_errors: yes
+      register: docker_check
+
+    - name: Check if PostgreSQL is installed
+      command: pg_config --version
+      ignore_errors: yes
+      register: postgres_check
+
+    - name: Check Python version
+      command: python --version
+      register: python_version
+
+    - name: Check pip version
+      command: pip --version
+      register: pip_version
+
+    - name: Print results
+      debug:
+        msg: |
+          Docker installed: {{ 'yes' if docker_check.rc == 0 else 'no' }}
+          PostgreSQL installed: {{ 'yes' if postgres_check.rc == 0 else 'no' }}
+          Python version: {{ python_version.stdout }}
+          Pip version: {{ pip_version.stdout }}
+
